@@ -1,0 +1,78 @@
+//
+//  SignInView.swift
+//  WishTrip
+//
+//  Created by 김영택 on 6/22/25.
+//
+
+import SwiftUI
+
+struct SignInView: View {
+    
+    @State private var id: String = ""
+    @State private var password: String = ""
+    @State private var isLoginAlert: Bool = false
+    
+    var body: some View {
+        VStack {
+            Image("WishTripLogo")
+            
+            Spacer().frame(height:310)
+            
+            VStack(spacing: 10) {
+                // 아이디 입력 필드
+                TextField("ID", text: $id)
+                    .padding()
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.navy01, lineWidth: 1))
+                
+                // Password Field
+                SecureField("PW", text: $password)
+                    .padding()
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.navy01, lineWidth: 1))
+                
+                // Login Button
+                Button(action: {
+                    if id.isEmpty || password.isEmpty {
+                        // 로그인 로직
+                        isLoginAlert = true
+                        login()
+                        
+                    }
+                }) {
+                    Text("로그인")
+                        .foregroundStyle(.white)
+                        .font(.customPretend(.medium, size: 18))
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.navy01)
+                        .cornerRadius(10)
+                }
+                
+                // 회원가입 버튼
+                NavigationLink(destination: SignUpView()) {
+                    Text("회원가입")
+                        .foregroundStyle(.white)
+                        .font(.customPretend(.medium, size: 18))
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.navy01)
+                        .cornerRadius(10)
+                }
+            }
+            .padding(.horizontal, 50)
+        }
+        .alert(isPresented: $isLoginAlert) {
+            Alert(title: Text("아이디/비밀번호를 전부 입력하세요"), dismissButton: .default(Text("확인")))
+        }
+    }
+    
+    private func login() {
+        
+    }
+}
+
+#Preview {
+    SignInView()
+}
