@@ -19,6 +19,7 @@ class MapViewModel {
     }
     
     var keyword: String = ""
+    var selected: Prediction?
     
     var showNoResultsAlert = false
     
@@ -72,6 +73,27 @@ class MapViewModel {
             annotations = center
         } catch {
             print("요청 또는 디코딩 실패:", error.localizedDescription)
+        }
+    }
+    
+    // 여행지 추가
+    func postTripPlaces() async -> Bool {
+        do {
+            guard let selected = selected else { return false }
+            
+            let newRequest = AddTravelRequest(
+                memberId: 0,
+                city: selected.structured_formatting.main_text,
+                country: selected.structured_formatting.secondary_text
+            )
+            
+            let response = try await provider.requestAsync(.postTripPlaces(request: newRequest))
+            let decoded = try JSONDecoder().decode(AddTravelDestinationResponse.self, from: response.data)
+
+            return decoded.isSuccess
+        } catch {
+            print("요청 또는 디코딩 실패:", error.localizedDescription)
+            return false
         }
     }
 }

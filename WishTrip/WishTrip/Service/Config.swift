@@ -35,4 +35,11 @@ enum Config {
         }
         return apiKey
     }()
+    
+    static let baseURL: String = {
+        guard let baseURL = Config.infoDictionary["BASE_API_URL"] as? String else {
+            fatalError()
+        }
+        return baseURL
+    }()
 }
