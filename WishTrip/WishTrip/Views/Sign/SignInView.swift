@@ -51,7 +51,9 @@ struct SignInView: View {
                 }
                 
                 // 회원가입 버튼
-                NavigationLink(destination: SignUpView()) {
+                Button(action: {
+                    // 회원가입 페이지로 이동
+                }) {
                     Text("회원가입")
                         .foregroundStyle(.white)
                         .font(.customPretend(.medium, size: 18))

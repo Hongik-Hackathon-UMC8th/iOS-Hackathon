@@ -24,11 +24,11 @@ struct SignUpView: View {
             Spacer().frame(height: 150)
 
             VStack(spacing: 10) {
-                customTextField("ID", text: $id)
-                customSecureField("PW", text: $password)
-                customSecureField("비밀번호 다시 입력", text: $checkPassword)
-                customTextField("이름", text: $name)
-                customTextField("전화번호", text: $callNumber)
+                customTextField("ID", text: $id, strokeColor: Color.navy01)
+                customSecureField("PW", text: $password, strokeColor: Color.navy01)
+                customSecureField("비밀번호 다시 입력", text: $checkPassword, strokeColor: Color.navy01)
+                customTextField("이름", text: $name, strokeColor: Color.navy01)
+                customTextField("전화번호", text: $callNumber, strokeColor:    Color.navy01)
 
                 Spacer().frame(height: 10)
 
@@ -59,25 +59,30 @@ struct SignUpView: View {
         }
         showAlert = true
     }
-
-    // MARK: - Components
-    @ViewBuilder
-    private func customTextField(_ placeholder: String, text: Binding<String>) -> some View {
-        TextField(placeholder, text: text)
-            .padding()
-            .background(Color.white)
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.navy01, lineWidth: 1))
-    }
-
-    @ViewBuilder
-    private func customSecureField(_ placeholder: String, text: Binding<String>) -> some View {
-        SecureField(placeholder, text: text)
-            .padding()
-            .background(Color.white)
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.navy01, lineWidth: 1))
-    }
 }
 
+// MARK: - Components
+@ViewBuilder
+func customTextField(_ placeholder: String, text: Binding<String>, strokeColor: Color = .navy01) -> some View {
+    TextField(placeholder, text: text)
+        .padding()
+        .background(Color.white)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(strokeColor, lineWidth: 1)
+        )
+}
+
+@ViewBuilder
+func customSecureField(_ placeholder: String, text: Binding<String>, strokeColor: Color = .navy01) -> some View {
+    SecureField(placeholder, text: text)
+        .padding()
+        .background(Color.white)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(strokeColor, lineWidth: 1)
+        )
+}
 #Preview {
     SignUpView()
 }
