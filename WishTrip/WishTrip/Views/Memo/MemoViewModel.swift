@@ -13,7 +13,7 @@ import Foundation
 class MemoViewModel: ObservableObject {
     @Published var memos: [Memo] = [
         Memo(
-            imageName: "paris",
+            imageName: "paris3",
             title: "파리",
             subtitle: "프랑스의 수도",
             content: "프랑스 파리에 처음 방문했을 때 안 좋은 편견이 있었지만 편견은 편견일 뿐 사람들도 친절하고 넘 재밌었당 또가고 싶다 프랑스짱 루브르 박물관에 있는 모나리자는 가품일까? 진품일까?",
@@ -22,7 +22,7 @@ class MemoViewModel: ObservableObject {
             createdAt: Date(timeIntervalSince1970: 1687737600) 
         ),
         Memo(
-            imageName: "hawaii",
+            imageName: "hawaii3",
             title: "하와이",
             subtitle: "미국의 섬",
             content: "프랑스 파리에 처음 방문했을 때 안 좋은 편견이 있었지만 편견은 편견일 뿐 사람들도 친절하고 넘 재밌었당 또가고 싶다 프랑스짱 루브르 박물관에 있는 모나리자는 가품일까? 진품일까?",
@@ -31,7 +31,7 @@ class MemoViewModel: ObservableObject {
             createdAt: Date(timeIntervalSince1970: 1687737600)
         ),
         Memo(
-            imageName: "barcelona",
+            imageName: "barcelona3",
             title: "바르셀로나",
             subtitle: "스페인의 도시",
             content: "프랑스 파리에 처음 방문했을 때 안 좋은 편견이 있었지만 편견은 편견일 뿐 사람들도 친절하고 넘 재밌었당 또가고 싶다 프랑스짱 루브르 박물관에 있는 모나리자는 가품일까? 진품일까?",
