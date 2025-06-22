@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FullListView: View {
-    @ObservedObject var viewModel: MemoVM2
+    @ObservedObject var viewModel2: MemoVM2
     @Environment(\.dismiss) private var dismiss
     @State private var sortOption: SortOption = .registration
 
@@ -81,7 +81,7 @@ struct FullListView: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(viewModel.destinations) { dest in
+                    ForEach(viewModel2.destinations) { dest in
                         DestinationRow(destination: dest)
                     }
                 }
@@ -92,7 +92,7 @@ struct FullListView: View {
 }
 
 #Preview {
-    FullListView(viewModel: MemoVM2())
+    FullListView(viewModel2: MemoVM2())
 }
 
 
