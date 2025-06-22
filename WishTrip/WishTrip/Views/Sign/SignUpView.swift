@@ -41,31 +41,6 @@ struct SignUpView: View {
                     .padding()
                     .background(Color.navy01)
                     .cornerRadius(10)
-                
-                // 에러 메시지 있으면 화면에 출력 + 콘솔 출력
-                                if let error = viewModel.errorMessage {
-                                    Text("❌ \(error)")
-                                        .foregroundColor(.red)
-                                        .padding(.top, 8)
-                                    // 콘솔 출력
-                                    .task {
-                                        print("Error Message: \(error)")
-                                    }
-                                }
-
-                                // 성공 메시지 있으면 화면에 출력 + 콘솔 출력
-                                if viewModel.isSuccess {
-                                    Text("✅ 가입 완료! ID: \(viewModel.memberId ?? 0)")
-                                        .foregroundColor(.green)
-                                        .padding(.top, 8)
-                                    // 콘솔 출력
-                                    .task {
-                                        print("Success! Member ID: \(viewModel.memberId ?? 0)")
-                                    }
-                                }
-
-                
-
             }
             .padding(.horizontal, 50)
         }

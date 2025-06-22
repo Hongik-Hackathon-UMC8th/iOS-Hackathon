@@ -7,15 +7,15 @@
 
 // 요청 DTOs
 struct SignupRequest: Codable {
-    let user_id: String
-    let user_pwd: String
-    let phone_num: String
+    let loginId: String
+    let loginPwd: String
+    let phone: String
     let nickname: String
 }
 
 struct LoginRequest: Codable {
-    let user_id: String
-    let user_pwd: String
+    let loginId: String
+    let loginPwd: String
 }
 
 // 응답 DTO
@@ -29,4 +29,17 @@ struct ApiResponse: Codable {
     let code: String
     let message: String
     let result: MemberResult
+}
+
+// login Response DTO
+struct LoginResult: Codable {
+    let memberId: Int
+    let accessToken: String
+}
+
+struct LoginResponse: Codable {
+    let isSuccess: Bool
+    let code: String
+    let message: String
+    let result: LoginResult
 }
