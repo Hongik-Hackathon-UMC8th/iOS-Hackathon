@@ -69,7 +69,7 @@ struct SearchBarSection: View {
 
 struct TravelListBox: View {
     @ObservedObject var viewModel2: MemoVM2
-
+    @State private var showMemoModal = false
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading){
@@ -82,14 +82,16 @@ struct TravelListBox: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal,15)
             
-
+            
             ForEach(viewModel2.destinations.prefix(2)) { dest in
-                DestinationRow(destination: dest)
+                DestinationRow(destination: dest) {
+                    showMemoModal = true
+                }
             }
-
-
+            
+            
             NavigationLink {
-
+                
                 FullListView(viewModel2: viewModel2)
             } label: {
                 Text("더보기")
@@ -103,14 +105,16 @@ struct TravelListBox: View {
         .cornerRadius(20)
         .shadow(color: .gray.opacity(0.15), radius: 5)
         .padding(.horizontal)
+        .sheet(isPresented: $showMemoModal) {
+            MemoModal()
+        }
     }
 }
 
-
-
 struct DestinationRow: View {
     let destination: Destination
-
+    var onAddMemoTap: () -> Void = {}
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
@@ -130,24 +134,28 @@ struct DestinationRow: View {
                 }
                 
                 Spacer()
-                HStack{
-                    Button { } label: {
-                        Image("button1")
-                            .resizable()
-                            .frame(width: 19.45, height: 19.45)
-                    }
-                    Spacer()
-                        .frame(width:17)
-                    Button {  } label: {
-                        Image("button2")
-                            .resizable()
-                            .frame(width: 21, height: 21)
-                    }
+                
+                Button {
+                    // your first button action
+                } label: {
+                    Image("button1")
+                        .resizable()
+                        .frame(width: 19.45, height: 19.45)
+                }
+                
+                Spacer().frame(width: 17)
+                
+                Button {
+                    // trigger the modal
+                    onAddMemoTap()
+                } label: {
+                    Image("button2")
+                        .resizable()
+                        .frame(width: 21, height: 21)
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-
             
             Divider()
                 .padding(.horizontal, 16)

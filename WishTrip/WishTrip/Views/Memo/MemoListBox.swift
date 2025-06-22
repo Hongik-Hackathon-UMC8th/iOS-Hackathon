@@ -9,12 +9,16 @@ import SwiftUI
 
 struct MemoListBox: View {
     @ObservedObject var viewModel: MemoViewModel
+    @State private var showMemoModal = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading){
-                Text("여행 기록")
-                    .font(.custom("Pretendard-SemiBold", size: 15))
+                HStack{
+                    Text("여행 기록")
+                        .font(.custom("Pretendard-SemiBold", size: 15))
+                    Image("button3")
+                }
                 Text("특별한 감정 기록하기")
                     .font(.custom("Pretendard-Regular", size: 11))
                     .foregroundColor(.gray01)
