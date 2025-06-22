@@ -9,4 +9,5 @@ import SwiftUI
 
 enum Route: Hashable {
     case baseTab
+    case mapWithSearch(keyword: String)
 }

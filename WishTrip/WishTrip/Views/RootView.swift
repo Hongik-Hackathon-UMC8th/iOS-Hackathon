@@ -19,6 +19,9 @@ struct RootView: View {
                     case .baseTab:
                         BaseTabView()
                             .environment(router)
+                    case .mapWithSearch(let keyword):
+                                           MapView(initialKeyword: keyword)
+                                               .environment(router)
                     }
                 }
         }

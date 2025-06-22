@@ -13,26 +13,20 @@ struct PlaceCardView: View {
     var body: some View {
         TabView {
             ForEach(places) { place in
-                GeometryReader { geometry in
-                    Image(place.imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: 200)
-                        .clipped()
-                        .aspectRatio(contentMode: .fit)
-
-                        .cornerRadius(20)
-                    
-                }
-                .frame(height: 200)
-                .padding(.horizontal, 20)
+                Image(place.imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: UIScreen.main.bounds.width - 40, height: 200)
+                    .clipped()
+                    .cornerRadius(20)
+                    .padding(.horizontal, 20)
             }
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic)) // 페이지 넘김 & 인디케이터
         .frame(height: 220)
-
     }
 }
+
 
 #Preview {
     PlaceCardView(places: PlaceCardViewModel)

@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    var initialKeyword: String? = nil 
     @Environment(NavigationRouter.self) private var router
     
     @State private var viewModel: MapViewModel = .init()

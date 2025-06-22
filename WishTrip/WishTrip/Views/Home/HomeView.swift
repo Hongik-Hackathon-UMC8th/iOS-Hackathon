@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(NavigationRouter.self) private var router
     @State private var searchText: String = ""
+    
+    @ObservedObject private var userSession = UserSession.shared
+
 
     var body: some View {
         VStack(alignment: .leading){
@@ -37,6 +41,9 @@ struct HomeView: View {
                     .foregroundColor(.black)
                 TextField("도시 이름을 입력하세요", text: $searchText)
                     .font(.pretend(type: .medium, size: 14))
+                    .onTapGesture {
+                                router.push(.mapWithSearch(keyword: ""))
+                            }
                 
                 
             }
@@ -76,7 +83,7 @@ struct HomeView: View {
                 
                 
                 VStack(alignment: .leading) {
-                    Text("여행자님 안녕하세요")
+                    Text("\(userSession.userName)님 안녕하세요")
                         .font(.pretend(type: .semiBold, size: 14))
                     
                     Text("여행을 위한 최고의 장소를 찾아보세요!")
@@ -114,4 +121,6 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(NavigationRouter())
+
 }
