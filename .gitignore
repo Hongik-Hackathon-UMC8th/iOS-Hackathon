@@ -14,3 +14,4 @@
 # Build products
 DerivedData/
 build/
+WishTrip/WishTrip/Service/Secret.xcconfig
