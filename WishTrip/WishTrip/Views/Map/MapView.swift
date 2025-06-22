@@ -13,12 +13,7 @@ struct MapView: View {
     
     @State private var viewModel: MapViewModel = .init()
     
-    @State var keyword: String = ""
-    
-    @State private var results: [String] = ["파리, 뉴욕", "파리, 뉴욕", "파리, 뉴욕"]
-    
     @FocusState private var focusedField: Bool
-    
     @Namespace var mapScope
     
     var body: some View {
@@ -38,7 +33,7 @@ struct MapView: View {
                 mapView
                     .padding(.top, 60)
                 
-                if focusedField && !results.isEmpty {
+                if !(viewModel.results?.isEmpty ?? true) {
                     dropDownView
                         .offset(y: 35)
                 }
@@ -48,11 +43,14 @@ struct MapView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
         }
+        .alert("해당 검색어로 조회된 결과가 존재하지 않습니다.", isPresented: $viewModel.showNoResultsAlert) {
+            Button("확인", role: .cancel) { }
+        }
     }
     
     private var searchBar: some View {
         ZStack(alignment: .top) {
-            TextField("도시 이름을 입력하세요.", text: $keyword)
+            TextField("도시 이름을 입력하세요.", text: $viewModel.keyword)
                 .font(.customPretend(.medium, size: 14))
                 .foregroundStyle(.gray0001)
                 .autocapitalization(.none)
@@ -61,6 +59,11 @@ struct MapView: View {
                 .padding(.trailing, 35)
                 .padding(.vertical, 13)
                 .focused($focusedField)
+                .onSubmit {
+                    Task {
+                        await viewModel.getPlaceSearch()
+                    }
+                }
                 .background(alignment: .bottom) {
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 12)
@@ -79,8 +82,8 @@ struct MapView: View {
                                     .padding(.trailing, 30)
                                     .frame(width: 14, height: 14)
                                     .onTapGesture {
-                                        keyword.removeAll()
-                                        results = []
+                                        viewModel.keyword.removeAll()
+                                        viewModel.results = []
                                     }
                                 
                             }
@@ -96,8 +99,8 @@ struct MapView: View {
                 .fill(.white)
                 .frame(height: 10)
             
-            ForEach(results, id: \.self) { result in
-                Text(result)
+            ForEach(viewModel.results ?? [], id: \.place_id) { result in
+                Text("\(result.structured_formatting.main_text), \(result.structured_formatting.secondary_text)")
                     .font(.customPretend(.medium, size: 14))
                     .foregroundStyle(.navy01)
                     .padding(.vertical, 16)
@@ -105,8 +108,10 @@ struct MapView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(.white)
                     .onTapGesture {
-                        keyword = result
-                        results = []
+                        Task {
+                            await viewModel.getLocation(place_id: result.place_id)
+                            viewModel.results = []
+                        }
                     }
                 
                 Divider()
@@ -141,10 +146,14 @@ struct MapView: View {
     
     private var mapView: some View {
         ZStack(alignment: .bottom) {
-            Map(position: $viewModel.cameraPosition, scope: mapScope)
-                .mask(
-                    RoundedRectangle(cornerRadius: 12)
-                )
+            Map(position: $viewModel.cameraPosition, scope: mapScope) {
+                if let coord = viewModel.annotations {
+                    Marker("", coordinate: coord)
+                }
+            }
+            .mask(
+                RoundedRectangle(cornerRadius: 12)
+            )
             
             localSearchBtn
         }
