@@ -12,38 +12,92 @@ struct MapView: View {
     @Environment(NavigationRouter.self) private var router
     
     @State private var viewModel: MapViewModel = .init()
+    @State private var showAddModal = false
+    @State private var showCompleteModal = false
+    
+    @State private var showErrorModal = false
     
     @FocusState private var focusedField: Bool
     @Namespace var mapScope
     
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .center) {
-                Spacer()
-                
-                Text("지도")
-                    .foregroundStyle(.black)
-                    .font(.customPretend(.semiBold, size: 16))
-                
-                Spacer()
-            }
-            .padding(.vertical, 20)
-            
-            ZStack(alignment: .top) {
-                mapView
-                    .padding(.top, 60)
-                
-                if !(viewModel.results?.isEmpty ?? true) {
-                    dropDownView
-                        .offset(y: 35)
+        ZStack {
+            VStack(spacing: 0) {
+                HStack(alignment: .center) {
+                    Spacer()
+                    
+                    Text("지도")
+                        .foregroundStyle(.black)
+                        .font(.customPretend(.semiBold, size: 16))
+                    
+                    Spacer()
                 }
+                .padding(.vertical, 20)
                 
-                searchBar
+                ZStack(alignment: .top) {
+                    if ((viewModel.selected) != nil) {
+                        mapView
+                            .padding(.top, 60)
+                    } else {
+                        emptyStateView
+                            .padding(.top, 45)
+                    }
+                    
+                    if !(viewModel.results?.isEmpty ?? true) {
+                        dropDownView
+                            .offset(y: 35)
+                    }
+                    
+                    searchBar
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 20)
+            
+            if showAddModal, let selected = viewModel.selected {
+                CustomModalView2(
+                    title: "'내 여행지'에 추가하시겠습니까?",
+                    locationTitle: selected.structured_formatting.main_text,
+                    locationSubtitle: "\(selected.structured_formatting.secondary_text)의 수도",
+                    primaryButtonTitle: "추가하기",
+                    secondaryButtonTitle: "취소",
+                    primaryAction: {
+                        Task {
+                            let success = await viewModel.postTripPlaces()
+                            
+                            if success {
+                                showAddModal = false
+                                showCompleteModal = true
+                            } else {
+                                showAddModal = false
+                                showErrorModal = true
+                            }
+                        }
+                    },
+                    secondaryAction: {
+                        print("취소됨")
+                        showAddModal = false
+                    }
+                )
+            }
+            
+            if showCompleteModal, let selected = viewModel.selected {
+                CustomModalView2(
+                    title: "'내 여행지'에 추가되었습니다.",
+                    locationTitle: selected.structured_formatting.main_text,
+                    locationSubtitle: "\(selected.structured_formatting.secondary_text)의 수도",
+                    primaryButtonTitle: "닫기",
+                    primaryAction: {
+                        print("닫기 완료")
+                        showCompleteModal = false
+                    }
+                )
+            }
         }
         .alert("해당 검색어로 조회된 결과가 존재하지 않습니다.", isPresented: $viewModel.showNoResultsAlert) {
+            Button("확인", role: .cancel) { }
+        }
+        .alert("에러가 발생했습니다. 다시 시도해주세요.", isPresented: $showErrorModal) {
             Button("확인", role: .cancel) { }
         }
     }
@@ -110,6 +164,7 @@ struct MapView: View {
                     .onTapGesture {
                         Task {
                             await viewModel.getLocation(place_id: result.place_id)
+                            viewModel.selected = result
                             viewModel.results = []
                         }
                     }
@@ -163,6 +218,7 @@ struct MapView: View {
     private var localSearchBtn: some View {
         Button(action : {
             print("여행지 목록에 추가")
+            showAddModal = true
         }) {
             HStack(spacing: 10) {
                 Image(systemName: "plus")
