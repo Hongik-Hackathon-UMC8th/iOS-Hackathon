@@ -11,7 +11,7 @@ import SwiftUI
 struct MemoDetail: View {
     let memo: Memo
     @StateObject private var viewModel = MemoViewModel()
-    
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(spacing: 0) {
             topView
@@ -32,7 +32,7 @@ struct MemoDetail: View {
     private var topView: some View {
         HStack {
             Button(action: {
-                // 뒤로가기 액션
+                dismiss()
             }) {
                 Image(.back)
                     .resizable()
