@@ -1,0 +1,16 @@
+.DS_Store
+
+# Xcode user-specific settings and temp files
+*.xcsettings
+*.xcuserdatad/
+*.xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcshareddata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/xcshareddata/
+
+# Build products
+DerivedData/
+build/
