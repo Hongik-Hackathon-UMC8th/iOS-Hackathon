@@ -12,6 +12,7 @@ import SwiftUI
 enum MapRouter {
     case getGooglePlaceSearch(keyword: String)
     case getCoordinates(place_id: String)
+    case postTripPlaces(request: AddTravelRequest)
 }
 
 extension MapRouter: APITargetType {
@@ -20,6 +21,8 @@ extension MapRouter: APITargetType {
         switch self {
         case .getGooglePlaceSearch, .getCoordinates:
             return URL(string: "\(Config.googleApiURL)")!
+        case .postTripPlaces:
+            return URL(string: "\(Config.baseURL)")!
         }
     }
     
@@ -29,6 +32,8 @@ extension MapRouter: APITargetType {
             return "/autocomplete/json"
         case .getCoordinates:
             return "/details/json"
+        case .postTripPlaces:
+            return "/api/trip_places"
         }
     }
     
@@ -36,6 +41,8 @@ extension MapRouter: APITargetType {
         switch self {
         case .getGooglePlaceSearch, .getCoordinates:
             return .get
+        case .postTripPlaces:
+            return .post
         }
     }
     
@@ -45,12 +52,14 @@ extension MapRouter: APITargetType {
             return .requestParameters(parameters: ["input": keyword, "key": "\(Config.apiKey)", "types": "geocode", "language": "ko"], encoding: URLEncoding.queryString)
         case .getCoordinates(let place_id):
             return .requestParameters(parameters: ["place_id": place_id, "key": "\(Config.apiKey)"], encoding: URLEncoding.queryString)
+        case .postTripPlaces(let request):
+            return .requestJSONEncodable(request)
         }
     }
     
     var headers: [String: String]? {
         switch self {
-        case .getGooglePlaceSearch, .getCoordinates:
+        case .getGooglePlaceSearch, .getCoordinates, .postTripPlaces:
             return ["Content-Type": "application/json"]
         }
     }
