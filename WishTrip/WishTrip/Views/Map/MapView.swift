@@ -47,6 +47,15 @@ struct MapView: View {
         .alert("해당 검색어로 조회된 결과가 존재하지 않습니다.", isPresented: $viewModel.showNoResultsAlert) {
             Button("확인", role: .cancel) { }
         }
+        .onAppear {
+               if let initialKeyword, viewModel.keyword.isEmpty {
+                   viewModel.keyword = initialKeyword
+                   Task {
+                       await viewModel.getPlaceSearch()
+                   }
+               }
+           }
+        
     }
     
     private var searchBar: some View {
@@ -92,6 +101,7 @@ struct MapView: View {
                     }
                 }
         }
+        
     }
     
     private var dropDownView: some View {

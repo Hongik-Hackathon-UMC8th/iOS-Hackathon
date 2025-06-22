@@ -10,50 +10,38 @@ import Foundation
 import Moya
 import SwiftUI
 
+import Foundation
+import Moya
+
 enum HomeRouter {
-    case getGooglePlaceSearch(keyword: String)
-    case getCoordinates(place_id: String)
+    case getMyName(memberId: Int)
 }
 
 extension HomeRouter: APITargetType {
-    
     var baseURL: URL {
-        switch self {
-        case .getGooglePlaceSearch, .getCoordinates:
-            return URL(string: "\(Config.googleApiURL)")!
-        }
+        return URL(string: "http://13.124.96.17:8080/")!
     }
-    
+
     var path: String {
         switch self {
-        case .getGooglePlaceSearch:
-            return "/autocomplete/json"
-        case .getCoordinates:
-            return "/details/json"
+        case .getMyName(let memberId):
+            return "/members/\(memberId)/my_name"
         }
     }
-    
+
     var method: Moya.Method {
-        switch self {
-        case .getGooglePlaceSearch, .getCoordinates:
-            return .get
-        }
+        return .get
     }
-    
+
     var task: Task {
-        switch self {
-        case .getGooglePlaceSearch(let keyword):
-            return .requestParameters(parameters: ["input": keyword, "key": "\(Config.apiKey)", "types": "geocode", "language": "ko"], encoding: URLEncoding.queryString)
-        case .getCoordinates(let place_id):
-            return .requestParameters(parameters: ["place_id": place_id, "key": "\(Config.apiKey)"], encoding: URLEncoding.queryString)
-        }
+        return .requestPlain
     }
-    
+
     var headers: [String: String]? {
-        switch self {
-        case .getGooglePlaceSearch, .getCoordinates:
-            return ["Content-Type": "application/json"]
-        }
+        return ["Content-Type": "application/json"]
+    }
+
+    var validationType: ValidationType {
+        return .successCodes
     }
 }
-

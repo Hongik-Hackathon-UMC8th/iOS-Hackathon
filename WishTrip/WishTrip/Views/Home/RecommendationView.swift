@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RecommendationView: View {
+    @Environment(NavigationRouter.self) private var router
+
     let recommendations: [RecommendationModel]
 
     var body: some View {
@@ -80,9 +82,14 @@ struct RecommendationView: View {
                             .stroke(Color.gray.opacity(0.5), lineWidth: 2.5)
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .onTapGesture {
+                        router.push(.mapWithSearch(keyword: recommendation.city))
                     
                     
                 }
+                
+                }
+
                 
             }
             .padding(.horizontal)
@@ -94,7 +101,8 @@ struct RecommendationView: View {
 
     
 #Preview {
-    RecommendationView(recommendations: RecommendationViewModel)
+    RecommendationView(recommendations: RecommendationViewModel)        .environment(NavigationRouter())
+
 }
     
 
