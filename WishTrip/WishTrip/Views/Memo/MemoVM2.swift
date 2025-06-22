@@ -13,9 +13,9 @@ class MemoVM2: ObservableObject {
 
     init() {
         destinations = [
-            Destination(city: "파리", country: "프랑스", imageName: "paris"),
-            Destination(city: "바르셀로나", country: "스페인", imageName: "barcelona"),
-            Destination(city: "하와이",     country: "미국",       imageName: "hawaii"),
+            Destination(city: "파리", country: "프랑스", imageName: "paris2"),
+            Destination(city: "바르셀로나", country: "스페인", imageName: "barcelona2"),
+            Destination(city: "하와이",     country: "미국",       imageName: "hawaii2"),
             Destination(city: "도쿄",       country: "일본",       imageName: "tokyo"),
             Destination(city: "푸꾸옥",     country: "베트남",     imageName: "phuquoc"),
             Destination(city: "뉴욕",       country: "미국",       imageName: "newyork"),
