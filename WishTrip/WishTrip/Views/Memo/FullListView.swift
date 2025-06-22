@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FullListView: View {
-    @ObservedObject var viewModel: MemoVM2
+    @ObservedObject var viewModel2: MemoVM2
     @Environment(\.dismiss) private var dismiss
     @State private var sortOption: SortOption = .registration
 
@@ -35,19 +35,19 @@ struct FullListView: View {
             .padding(.horizontal)
             .padding(.top, 10)
         
-            VStack(alignment: .leading, spacing: 4) {
-                Text("여행지 목록")
-                    .font(.callout.bold())
-                Text("여행할 도시 및 완료한 여행지")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)  
-            .padding(.horizontal)
-            .padding(.top, 4)
+            
 
           
             HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("여행지 목록")
+                        .font(.custom("Pretendard-SemiBold", size: 16))
+                    Text("여행할 도시 및 완료한 여행지")
+                        .font(.custom("Pretendard-Regular", size: 11))
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 10)
                 Spacer()
                 Menu {
                     ForEach(SortOption.allCases) { option in
@@ -58,16 +58,18 @@ struct FullListView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Text(sortOption.rawValue)
+                            .font(.custom("Pretendard-Regular", size: 10))
+                            .foregroundColor(.navy01)
+                        Spacer()
+                        Image("triangle1")
                             .font(.subheadline)
-                            .foregroundColor(.black)
-                        Image(systemName: "chevron.down")
-                            .font(.subheadline)
-                            .foregroundColor(.black)
+                            .foregroundColor(.navy01)
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(Color.memomain)
-                    .cornerRadius(8)
+                    .frame(width: 128, height: 19)
+                    .background(.gray02)
+                    .cornerRadius(5)
                 }
             }
             .padding(.horizontal)
@@ -79,7 +81,7 @@ struct FullListView: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(viewModel.destinations) { dest in
+                    ForEach(viewModel2.destinations) { dest in
                         DestinationRow(destination: dest)
                     }
                 }
@@ -90,7 +92,7 @@ struct FullListView: View {
 }
 
 #Preview {
-    FullListView(viewModel: MemoVM2())
+    FullListView(viewModel2: MemoVM2())
 }
 
 

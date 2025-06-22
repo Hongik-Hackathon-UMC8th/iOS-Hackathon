@@ -6,8 +6,9 @@
 //
 
 struct MemoMain: View {
-    @StateObject private var viewModel = MemoVM2()
-
+    @StateObject private var viewModel2 = MemoVM2()
+    @StateObject private var viewModel = MemoViewModel()
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -15,7 +16,8 @@ struct MemoMain: View {
 
                 VStack(spacing: 20) {
                     SearchBarSection()
-                    TravelListBox(viewModel: viewModel)
+                    TravelListBox(viewModel2: viewModel2)
+                    MemoListBox(viewModel: viewModel)
                 }
                 .padding(.top, 80)
             }
@@ -61,7 +63,7 @@ struct SearchBarSection: View {
 }
 
 struct TravelListBox: View {
-    @ObservedObject var viewModel: MemoVM2
+    @ObservedObject var viewModel2: MemoVM2
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -71,14 +73,14 @@ struct TravelListBox: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
 
-            ForEach(viewModel.destinations.prefix(2)) { dest in
+            ForEach(viewModel2.destinations.prefix(2)) { dest in
                 DestinationRow(destination: dest)
             }
 
             // ★ 이 부분을 NavigationLink 로 감싸요!
             NavigationLink {
                 // 여기에 본인이 새로 만든 FullListView() 를 넣어주세요
-                FullListView(viewModel: viewModel)
+                FullListView(viewModel2: viewModel2)
             } label: {
                 Text("더보기")
                     .font(.body)
@@ -112,10 +114,10 @@ struct DestinationRow: View {
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(destination.city)
-                        .font(.headline)
+                        .font(.custom("Pretendard-Medium", size: 14))
                         .foregroundColor(.city)
                     Text(destination.country)
-                        .font(.subheadline)
+                        .font(.custom("Pretendard-Regular", size: 11))
                         .foregroundColor(.gray)
                 }
                 

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct MemoDetail: View {
+    let memo: Memo
     @StateObject private var viewModel = MemoViewModel()
     
     var body: some View {
@@ -17,10 +18,16 @@ struct MemoDetail: View {
             ScrollView {
                 titleView
                     .padding(.bottom, 29)
-                memoListView
-            }
-        }
-    }
+                VStack(spacing: 24) {
+                                    ForEach(viewModel.sortedMemos) { memo in
+                                        MemoCardView(memo: memo)
+                                    }
+                                }
+                                .padding(.horizontal, 0)
+                            }
+                        }
+                        .navigationBarHidden(true)
+                    }
 
     private var topView: some View {
         HStack {
@@ -126,6 +133,4 @@ struct MemoDetail: View {
     }
 }
 
-#Preview {
-    MemoDetail()
-}
+
