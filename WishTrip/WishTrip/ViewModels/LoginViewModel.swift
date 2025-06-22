@@ -31,9 +31,6 @@ class LoginViewModel {
     var code: String? = nil
     var accessToken: String? = nil
     
-    // MARK: - Keychain
-    var tokenInfo: TokenInfo?
-    
     // MARK: - 회원가입
     func signup() async {
         let request = SignupRequest(
