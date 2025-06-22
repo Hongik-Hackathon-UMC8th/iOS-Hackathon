@@ -62,7 +62,7 @@ struct HomeView: View {
             
             Spacer().frame(height: 20)
             
-            // ✅ 사용자 인사
+            
             HStack {
                 Image(.user)
                     .resizable()

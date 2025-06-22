@@ -16,7 +16,7 @@ struct BaseTabView: View {
                 HomeView()
             }
             Tab("지도", image: "Map") {
-                MapView()
+                MapView(initialKeyword: "")
             }
             Tab("기록", image: "Memo") {
                 MemoView()

@@ -19,7 +19,7 @@ enum HomeRouter {
 
 extension HomeRouter: APITargetType {
     var baseURL: URL {
-        return URL(string: "http://13.124.96.17:8080/")!
+        return URL(string: "http://23.22.139.253:8080/")!
     }
 
     var path: String {

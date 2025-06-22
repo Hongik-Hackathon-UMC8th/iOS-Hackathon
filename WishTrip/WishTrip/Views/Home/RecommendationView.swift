@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RecommendationView: View {
     @Environment(NavigationRouter.self) private var router
+    
+    @State private var viewModel = MapViewModel()
 
     let recommendations: [RecommendationModel]
 
@@ -83,8 +85,12 @@ struct RecommendationView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .onTapGesture {
-                        router.push(.mapWithSearch(keyword: recommendation.city))
-                    
+                        /*router.push(.mapWithSearch(keyword: recommendation.country))
+                    */
+                        viewModel.keyword = recommendation.country
+                        print(viewModel.keyword)
+                        router.push(.mapView)
+                            
                     
                 }
                 
