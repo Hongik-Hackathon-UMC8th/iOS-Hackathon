@@ -112,10 +112,10 @@ struct DestinationRow: View {
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(destination.city)
-                        .font(.headline)
+                        .font(.custom("Pretendard-Medium", size: 14))
                         .foregroundColor(.city)
                     Text(destination.country)
-                        .font(.subheadline)
+                        .font(.custom("Pretendard-Regular", size: 11))
                         .foregroundColor(.gray)
                 }
                 
