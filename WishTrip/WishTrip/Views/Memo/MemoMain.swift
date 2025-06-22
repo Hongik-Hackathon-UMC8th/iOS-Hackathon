@@ -4,7 +4,7 @@
 //
 //  Created by 신민정 on 6/22/25.
 //
-
+import SwiftUI
 struct MemoMain: View {
     @StateObject private var viewModel2 = MemoVM2()
     @StateObject private var viewModel = MemoViewModel()
@@ -15,13 +15,15 @@ struct MemoMain: View {
                 Color.memomain.ignoresSafeArea()
 
                 VStack(spacing: 20) {
+                    Spacer().frame(height:6.5)
                 Text("기록")
                         .font(.custom("Pretendard-SemiBold", size: 16))
                     SearchBarSection()
                     TravelListBox(viewModel2: viewModel2)
                     MemoListBox(viewModel: viewModel)
+                    Spacer()
                 }
-                .padding(.top, 80)
+                
             }
             .navigationBarHidden(true)
         }
@@ -48,8 +50,9 @@ struct SearchBarSection: View {
                         .frame(width: 20, height: 20)
 
                     Text("도시 이름을 입력하세요.")
-                    font(.custom("Pretendard-Regular", size: 14))
+                        .font(.custom("Pretendard-Regular", size: 14))
                         .foregroundColor(.searchcolor)
+                      
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 40)
@@ -69,19 +72,24 @@ struct TravelListBox: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("여행지 목록")
-                .font(.headline)
-            Text("추가한 여행지")
-                .font(.subheadline)
-                .foregroundColor(.gray)
+            VStack(alignment: .leading){
+                Text("여행지 목록")
+                    .font(.headline)
+                Text("추가한 여행지")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal,15)
+            
 
             ForEach(viewModel2.destinations.prefix(2)) { dest in
                 DestinationRow(destination: dest)
             }
 
-            // ★ 이 부분을 NavigationLink 로 감싸요!
+
             NavigationLink {
-                // 여기에 본인이 새로 만든 FullListView() 를 넣어주세요
+
                 FullListView(viewModel2: viewModel2)
             } label: {
                 Text("더보기")
@@ -99,8 +107,6 @@ struct TravelListBox: View {
 }
 
 
-
-import SwiftUI
 
 struct DestinationRow: View {
     let destination: Destination
