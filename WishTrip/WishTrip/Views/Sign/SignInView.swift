@@ -39,9 +39,11 @@ struct SignInView: View {
                 // Login Button
                 Button(action: {
                     if id.isEmpty || password.isEmpty {
-                        // 로그인 로직
                         isLoginAlert = true
+                    } else {
                         Task {
+                            viewModel.loginId = id
+                            viewModel.loginPwd = password
                             await login()
                         }
                     }
@@ -54,7 +56,7 @@ struct SignInView: View {
                         .background(Color.navy01)
                         .cornerRadius(10)
                 }
-                
+
                 // 회원가입 버튼
                 Button(action: {
                     // 회원가입 페이지로 이동
