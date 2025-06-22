@@ -1,19 +1,28 @@
 import SwiftUI
 
 struct SettingView: View {
+    @State private var viewModel: SettingViewModel = .init()
+    
     @State private var showResetModal = false
     @State private var showResetCompleteModal = false
 
     var body: some View {
         ZStack {
-            NavigationStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    resetButton
-                    Divider()
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center) {
+                    Spacer()
+                    
+                    Text("설정")
+                        .foregroundStyle(.black)
+                        .font(.customPretend(.semiBold, size: 16))
+                    
                     Spacer()
                 }
-                .navigationTitle("설정")
-                .navigationBarTitleDisplayMode(.inline)
+                .padding(.vertical, 20)
+                
+                resetButton
+                Divider()
+                Spacer()
             }
 
             if showResetModal {
@@ -23,8 +32,14 @@ struct SettingView: View {
                     primaryButtonTitle: "초기화하기",
                     secondaryButtonTitle: "취소",
                     primaryAction: {
-                        showResetModal = false
-                        showResetCompleteModal = true
+                        Task {
+                            let success = await viewModel.reset()
+                            
+                            showResetModal = false
+                            if success {
+                                showResetCompleteModal = true
+                            }
+                        }
                     },
                     secondaryAction: {
                         showResetModal = false
