@@ -15,6 +15,8 @@ struct MemoMain: View {
                 Color.memomain.ignoresSafeArea()
 
                 VStack(spacing: 20) {
+                Text("기록")
+                        .font(.custom("Pretendard-SemiBold", size: 16))
                     SearchBarSection()
                     TravelListBox(viewModel2: viewModel2)
                     MemoListBox(viewModel: viewModel)
@@ -46,7 +48,7 @@ struct SearchBarSection: View {
                         .frame(width: 20, height: 20)
 
                     Text("도시 이름을 입력하세요.")
-                        .font(.body)
+                    font(.custom("Pretendard-Regular", size: 14))
                         .foregroundColor(.searchcolor)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
