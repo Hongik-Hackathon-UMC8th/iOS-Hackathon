@@ -22,6 +22,13 @@ enum Config {
         return googleApiURL
     }()
     
+    static let signUpApiURL: String = {
+        guard let signUpApiURL = Config.infoDictionary["SIGNUP_API_URL"] as? String else {
+            fatalError()
+        }
+        return signUpApiURL
+    }()
+    
     static let apiKey: String = {
         guard let apiKey = Config.infoDictionary["API_KEY"] as? String else {
             fatalError()

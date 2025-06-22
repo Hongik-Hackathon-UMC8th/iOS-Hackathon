@@ -19,7 +19,7 @@ struct BaseTabView: View {
                 MapView()
             }
             Tab("기록", image: "Memo") {
-                MemoView()
+                MemoMain()
             }
             Tab("설정", image: "Setting") {
                 SettingView()

@@ -4,7 +4,7 @@
 //
 //  Created by 신민정 on 6/22/25.
 //
-
+import SwiftUI
 struct MemoMain: View {
     @StateObject private var viewModel2 = MemoVM2()
     @StateObject private var viewModel = MemoViewModel()
@@ -15,11 +15,15 @@ struct MemoMain: View {
                 Color.memomain.ignoresSafeArea()
 
                 VStack(spacing: 20) {
+                    Spacer().frame(height:6.5)
+                Text("기록")
+                        .font(.custom("Pretendard-SemiBold", size: 16))
                     SearchBarSection()
                     TravelListBox(viewModel2: viewModel2)
                     MemoListBox(viewModel: viewModel)
+                    Spacer()
                 }
-                .padding(.top, 80)
+                
             }
             .navigationBarHidden(true)
         }
@@ -46,8 +50,9 @@ struct SearchBarSection: View {
                         .frame(width: 20, height: 20)
 
                     Text("도시 이름을 입력하세요.")
-                        .font(.body)
+                        .font(.custom("Pretendard-Regular", size: 14))
                         .foregroundColor(.searchcolor)
+                      
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 40)
@@ -64,22 +69,29 @@ struct SearchBarSection: View {
 
 struct TravelListBox: View {
     @ObservedObject var viewModel2: MemoVM2
-
+    @State private var showMemoModal = false
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("여행지 목록")
-                .font(.headline)
-            Text("추가한 여행지")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-
-            ForEach(viewModel2.destinations.prefix(2)) { dest in
-                DestinationRow(destination: dest)
+            VStack(alignment: .leading){
+                Text("여행지 목록")
+                    .font(.headline)
+                Text("추가한 여행지")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
             }
-
-            // ★ 이 부분을 NavigationLink 로 감싸요!
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal,15)
+            
+            
+            ForEach(viewModel2.destinations.prefix(2)) { dest in
+                DestinationRow(destination: dest) {
+                    showMemoModal = true
+                }
+            }
+            
+            
             NavigationLink {
-                // 여기에 본인이 새로 만든 FullListView() 를 넣어주세요
+                
                 FullListView(viewModel2: viewModel2)
             } label: {
                 Text("더보기")
@@ -93,16 +105,16 @@ struct TravelListBox: View {
         .cornerRadius(20)
         .shadow(color: .gray.opacity(0.15), radius: 5)
         .padding(.horizontal)
+        .sheet(isPresented: $showMemoModal) {
+            MemoModal()
+        }
     }
 }
 
-
-
-import SwiftUI
-
 struct DestinationRow: View {
     let destination: Destination
-
+    var onAddMemoTap: () -> Void = {}
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
@@ -122,24 +134,28 @@ struct DestinationRow: View {
                 }
                 
                 Spacer()
-                HStack{
-                    Button { } label: {
-                        Image("button1")
-                            .resizable()
-                            .frame(width: 19.45, height: 19.45)
-                    }
-                    Spacer()
-                        .frame(width:17)
-                    Button {  } label: {
-                        Image("button2")
-                            .resizable()
-                            .frame(width: 21, height: 21)
-                    }
+                
+                Button {
+                    // your first button action
+                } label: {
+                    Image("button1")
+                        .resizable()
+                        .frame(width: 19.45, height: 19.45)
+                }
+                
+                Spacer().frame(width: 17)
+                
+                Button {
+                    // trigger the modal
+                    onAddMemoTap()
+                } label: {
+                    Image("button2")
+                        .resizable()
+                        .frame(width: 21, height: 21)
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-
             
             Divider()
                 .padding(.horizontal, 16)

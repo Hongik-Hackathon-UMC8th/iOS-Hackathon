@@ -7,25 +7,31 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MemoListBox: View {
     @ObservedObject var viewModel: MemoViewModel
+    @State private var showMemoModal = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("여행 기록")
-                .font(.headline)
-            Text("특별한 감정 기록하기")
-                .font(.subheadline)
-                .foregroundColor(.gray)
+            VStack(alignment: .leading){
+                HStack{
+                    Text("여행 기록")
+                        .font(.custom("Pretendard-SemiBold", size: 15))
+                    Image("button3")
+                }
+                Text("특별한 감정 기록하기")
+                    .font(.custom("Pretendard-Regular", size: 11))
+                    .foregroundColor(.gray01)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal,15)
 
-            // ✂️ 앞에서 하나만 잘라서 보여준다
+
             ForEach(viewModel.sortedMemos.prefix(1)) { memo in
                 MemoCardView(memo: memo)
             }
 
-            // 🚀 더보기 누르면 디테일 전체 보기
+
             NavigationLink {
                 MemoDetail(memo: viewModel.sortedMemos.first!)
             } label: {
@@ -38,7 +44,6 @@ struct MemoListBox: View {
         .padding()
         .background(Color.white)
         .cornerRadius(20)
-        .shadow(radius: 4)
         .padding(.horizontal)
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct MemoDetail: View {
     let memo: Memo
     @StateObject private var viewModel = MemoViewModel()
-    
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack(spacing: 0) {
             topView
@@ -32,7 +32,7 @@ struct MemoDetail: View {
     private var topView: some View {
         HStack {
             Button(action: {
-                // 뒤로가기 액션
+                dismiss()
             }) {
                 Image(.back)
                     .resizable()
@@ -48,7 +48,7 @@ struct MemoDetail: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 5) {
                 Text("여행 기록")
-                    .font(.custom("Pretendard-SemiBold", size: 16))
+                    .font(.custom("Pretendard-SemiBold", size: 15))
 
                 Text("특별한 감정 기록")
                     .font(.custom("Pretendard-Regular", size: 11))
@@ -125,9 +125,10 @@ struct MemoDetail: View {
                     }
                 }
                 .padding(.horizontal, 20)
-
+                
                 Divider()
                     .padding(.horizontal, 20)
+                    .padding(.top,10)
             }
         }
     }

@@ -59,7 +59,7 @@ extension MapRouter: APITargetType {
     
     var headers: [String: String]? {
         switch self {
-        case .getGooglePlaceSearch, .getCoordinates:
+        case .getGooglePlaceSearch, .getCoordinates, .postTripPlaces:
             return ["Content-Type": "application/json"]
         case .postTripPlaces:
             return [

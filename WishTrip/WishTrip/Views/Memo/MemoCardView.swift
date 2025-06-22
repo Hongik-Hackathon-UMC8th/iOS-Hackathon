@@ -49,6 +49,7 @@ struct MemoCardView: View {
 
             Divider()
                 .padding(.horizontal, 20)
+                .padding(.top,10)
         }
     }
 }
