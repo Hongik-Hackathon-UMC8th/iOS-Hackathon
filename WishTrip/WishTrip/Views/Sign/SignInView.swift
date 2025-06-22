@@ -12,7 +12,11 @@ struct SignInView: View {
     @State private var id: String = ""
     @State private var password: String = ""
     @State private var isLoginAlert: Bool = false
+    @State private var alertMessage: String = ""
     
+    @State private var isLoginSuccess: Bool? = nil
+    
+    @Bindable var viewModel = LoginViewModel()
     var body: some View {
         VStack {
             Image("WishTripLogo")
@@ -37,8 +41,9 @@ struct SignInView: View {
                     if id.isEmpty || password.isEmpty {
                         // 로그인 로직
                         isLoginAlert = true
-                        login()
-                        
+                        Task {
+                            await login()
+                        }
                     }
                 }) {
                     Text("로그인")
@@ -62,6 +67,13 @@ struct SignInView: View {
                         .background(Color.navy01)
                         .cornerRadius(10)
                 }
+                
+                if !alertMessage.isEmpty {
+                                    Text(alertMessage)
+                                        .font(.caption)
+                                        .foregroundColor(isLoginSuccess == true ? .green : .red)
+                                        .padding(.top, 10)
+                                }
             }
             .padding(.horizontal, 50)
         }
@@ -70,9 +82,16 @@ struct SignInView: View {
         }
     }
     
-    private func login() {
-        
-    }
+    private func login() async {
+
+        await viewModel.login()
+
+        isLoginSuccess = viewModel.isSuccess
+                alertMessage = viewModel.isSuccess
+                    ? "✅ 로그인 성공: \(viewModel.message ?? "")"
+                    : "❌ 로그인 실패: \(viewModel.message ?? "알 수 없는 오류")"
+        }
+
 }
 
 #Preview {

@@ -18,9 +18,9 @@ class LoginViewModel {
     }
     
     // MARK: - 입력값
-    var userId: String = ""
-    var userPwd: String = ""
-    var phoneNum: String = ""
+    var loginId: String = ""
+    var loginPwd: String = ""
+    var phone: String = ""
     var nickname: String = ""
     
     // MARK: - 상태값 (응답값 풀어서 관리)
@@ -28,14 +28,18 @@ class LoginViewModel {
     var createdAt: String? = nil
     var isSuccess: Bool = false
     var message: String? = nil
-    var errorMessage: String? = nil
+    var code: String? = nil
+    var accessToken: String? = nil
+    
+    // MARK: - Keychain
+    var tokenInfo: TokenInfo?
     
     // MARK: - 회원가입
     func signup() async {
         let request = SignupRequest(
-            user_id: userId,
-            user_pwd: userPwd,
-            phone_num: phoneNum,
+            loginId: loginId,
+            loginPwd: loginPwd,
+            phone: phone,
             nickname: nickname
         )
         
@@ -47,32 +51,33 @@ class LoginViewModel {
             self.createdAt = decoded.result.createdAt
             self.message = decoded.message
             self.isSuccess = decoded.isSuccess
-            self.errorMessage = nil
+            self.code = decoded.code
         } catch {
             self.isSuccess = false
-            self.errorMessage = error.localizedDescription
+            self.message = error.localizedDescription
         }
     }
     
     // MARK: - 로그인
     func login() async {
         let request = LoginRequest(
-            user_id: userId,
-            user_pwd: userPwd
+            loginId: loginId,
+            loginPwd: loginPwd
         )
         
         do {
             let response = try await provider.requestAsync(.login(request))
-            let decoded = try JSONDecoder().decode(ApiResponse.self, from: response.data)
+            let decoded = try JSONDecoder().decode(LoginResponse.self, from: response.data)
             
             self.memberId = decoded.result.memberId
-            self.createdAt = decoded.result.createdAt
+            self.accessToken = decoded.result.accessToken
             self.message = decoded.message
             self.isSuccess = decoded.isSuccess
-            self.errorMessage = nil
+            self.code = decoded.code
         } catch {
             self.isSuccess = false
-            self.errorMessage = error.localizedDescription
+            self.message = error.localizedDescription
         }
     }
+    
 }
