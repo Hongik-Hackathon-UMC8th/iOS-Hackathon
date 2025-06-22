@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BaseTabView: View {
+    @Environment(NavigationRouter.self) private var router
+    
     var body: some View {
         TabView {
             Tab("홈", image: "Home") {
@@ -28,9 +30,12 @@ struct BaseTabView: View {
             UITabBar.appearance().backgroundColor = .white
             UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         }
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
 }
 
 #Preview {
     BaseTabView()
+        .environment(NavigationRouter())
 }
