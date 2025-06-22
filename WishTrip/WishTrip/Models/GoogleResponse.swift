@@ -66,5 +66,5 @@ struct TravelDestinationResult: Codable {
     let country: String
     let city: String
     let completed: Bool
-    let imageUrl: String
+    let imageUrl: String?
 }

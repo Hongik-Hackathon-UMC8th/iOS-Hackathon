@@ -61,6 +61,11 @@ extension MapRouter: APITargetType {
         switch self {
         case .getGooglePlaceSearch, .getCoordinates, .postTripPlaces:
             return ["Content-Type": "application/json"]
+        case .postTripPlaces:
+            return [
+                "Content-Type": "application/json",
+                "Authorization": "Bearer token"
+            ]
         }
     }
 }

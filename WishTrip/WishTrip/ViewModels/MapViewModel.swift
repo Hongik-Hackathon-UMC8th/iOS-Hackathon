@@ -82,7 +82,7 @@ class MapViewModel {
             guard let selected = selected else { return false }
             
             let newRequest = AddTravelRequest(
-                memberId: 0,
+                memberId: 4,
                 city: selected.structured_formatting.main_text,
                 country: selected.structured_formatting.secondary_text
             )
