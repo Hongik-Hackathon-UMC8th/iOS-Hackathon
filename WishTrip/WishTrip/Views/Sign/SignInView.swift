@@ -69,13 +69,6 @@ struct SignInView: View {
                         .background(Color.navy01)
                         .cornerRadius(10)
                 }
-                
-                if !alertMessage.isEmpty {
-                                    Text(alertMessage)
-                                        .font(.caption)
-                                        .foregroundColor(isLoginSuccess == true ? .green : .red)
-                                        .padding(.top, 10)
-                                }
             }
             .padding(.horizontal, 50)
         }
@@ -87,12 +80,6 @@ struct SignInView: View {
     private func login() async {
 
         await viewModel.login()
-
-        isLoginSuccess = viewModel.isSuccess
-                alertMessage = viewModel.isSuccess
-                    ? "✅ 로그인 성공: \(viewModel.message ?? "")"
-                    : "❌ 로그인 실패: \(viewModel.message ?? "알 수 없는 오류")"
-        }
 
 }
 
