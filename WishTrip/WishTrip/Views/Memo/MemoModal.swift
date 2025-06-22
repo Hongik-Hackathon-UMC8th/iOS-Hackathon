@@ -18,7 +18,7 @@ struct MemoModal: View {
     
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
-
+    @Environment(\.dismiss) private var dismiss
 
     enum ActiveDatePicker {
         case start, end
@@ -138,7 +138,7 @@ struct MemoModal: View {
                 // 취소 입력하기 버튼
                 HStack(spacing: 12) {
                     Button(action: {
-                        
+                        dismiss()
                     }) {
                         Text("취소")
                             .frame(maxWidth: .infinity)
@@ -150,7 +150,7 @@ struct MemoModal: View {
                     }
                     
                     Button(action: {
-                        
+                        dismiss()
                     }) {
                         Text("입력하기")
                             .frame(maxWidth: .infinity)

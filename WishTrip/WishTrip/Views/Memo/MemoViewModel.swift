@@ -11,6 +11,8 @@ import Foundation
 import Foundation
 
 class MemoViewModel: ObservableObject {
+    @Published var showMemoModal = false
+    
     @Published var memos: [Memo] = [
         Memo(
             imageName: "paris3",

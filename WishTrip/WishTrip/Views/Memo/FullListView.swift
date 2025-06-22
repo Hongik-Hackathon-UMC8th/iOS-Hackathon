@@ -11,7 +11,7 @@ struct FullListView: View {
     @ObservedObject var viewModel2: MemoVM2
     @Environment(\.dismiss) private var dismiss
     @State private var sortOption: SortOption = .registration
-
+    
     enum SortOption: String, CaseIterable, Identifiable {
         case registration    = "등록일 순"
         case alphabetical    = "가나다 순"
@@ -82,12 +82,58 @@ struct FullListView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(viewModel2.destinations) { dest in
-                        DestinationRow(destination: dest)
+                        destinationRow(destination: dest)
                     }
                 }
             }
         }
         .navigationBarHidden(true)
+    }
+    
+    func destinationRow(destination: Destination) -> some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                Image(destination.imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(destination.city)
+                        .font(.custom("Pretendard-Medium", size: 14))
+                        .foregroundColor(.city)
+                    Text(destination.country)
+                        .font(.custom("Pretendard-Regular", size: 11))
+                        .foregroundColor(.gray)
+                }
+                
+                Spacer()
+                
+                Button {
+                    // your first button action
+                } label: {
+                    Image("button1")
+                        .resizable()
+                        .frame(width: 19.45, height: 19.45)
+                }
+                
+                Spacer().frame(width: 17)
+                
+                Button {
+                } label: {
+                    Image("button2")
+                        .resizable()
+                        .frame(width: 21, height: 21)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            
+            Divider()
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+        }
     }
 }
 
