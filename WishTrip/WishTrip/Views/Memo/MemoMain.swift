@@ -9,6 +9,8 @@ struct MemoMain: View {
     @StateObject private var viewModel2 = MemoVM2()
     @StateObject private var viewModel = MemoViewModel()
     
+    var onAddMemoTap: () -> Void = {}
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -18,22 +20,21 @@ struct MemoMain: View {
                     Spacer().frame(height:6.5)
                 Text("기록")
                         .font(.custom("Pretendard-SemiBold", size: 16))
-                    SearchBarSection()
-                    TravelListBox(viewModel2: viewModel2)
+                    searchBarSection
+                    travelListBox
                     MemoListBox(viewModel: viewModel)
                     Spacer()
                 }
                 
+                if (viewModel.showMemoModal) {
+                    MemoModal()
+                }
             }
             .navigationBarHidden(true)
         }
     }
-}
-
-
-
-struct SearchBarSection: View {
-    var body: some View {
+    
+    private var searchBarSection: some View {
         VStack(spacing: 6) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
@@ -65,12 +66,8 @@ struct SearchBarSection: View {
                 .padding(.leading, 30)
         }
     }
-}
-
-struct TravelListBox: View {
-    @ObservedObject var viewModel2: MemoVM2
-    @State private var showMemoModal = false
-    var body: some View {
+    
+    private var travelListBox: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading){
                 Text("여행지 목록")
@@ -84,9 +81,10 @@ struct TravelListBox: View {
             
             
             ForEach(viewModel2.destinations.prefix(2)) { dest in
-                DestinationRow(destination: dest) {
-                    showMemoModal = true
-                }
+                destinationRow(destination: dest)
+                    .onTapGesture {
+                        viewModel.showMemoModal = true
+                    }
             }
             
             
@@ -105,17 +103,9 @@ struct TravelListBox: View {
         .cornerRadius(20)
         .shadow(color: .gray.opacity(0.15), radius: 5)
         .padding(.horizontal)
-        .sheet(isPresented: $showMemoModal) {
-            MemoModal()
-        }
     }
-}
-
-struct DestinationRow: View {
-    let destination: Destination
-    var onAddMemoTap: () -> Void = {}
     
-    var body: some View {
+    func destinationRow(destination: Destination) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
                 Image(destination.imageName)
