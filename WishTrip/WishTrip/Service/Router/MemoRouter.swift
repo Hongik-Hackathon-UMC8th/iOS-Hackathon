@@ -63,7 +63,7 @@ extension MemoRouter: APITargetType {
         case .getTripRecordsList, .getTripRecords, .reset, .postTripRecords:
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer token"
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdWxpZTA4MDUxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NTA1ODYyMzQsImV4cCI6MTc1MDYwMDYzNH0.YetwfrTOSBwcLrAwY5Cp9F-ztIordaGTYlYEl94eqdw"
             ]
         }
     }

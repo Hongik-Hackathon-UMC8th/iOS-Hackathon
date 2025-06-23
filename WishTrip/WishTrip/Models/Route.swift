@@ -8,6 +8,8 @@
 import SwiftUI
 
 enum Route: Hashable {
+    case login
+    case signup
     case baseTab
     case mapWithSearch(keyword: String)
     case mapView

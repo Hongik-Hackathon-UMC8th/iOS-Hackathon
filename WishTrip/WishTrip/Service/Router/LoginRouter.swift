@@ -16,7 +16,7 @@ enum LoginRouter {
 extension LoginRouter: APITargetType {
     
     var baseURL: URL {
-        return URL(string: "\(Config.signUpApiURL)")!
+        return URL(string: "\(Config.baseURL)")!
     }
     
     var path: String {

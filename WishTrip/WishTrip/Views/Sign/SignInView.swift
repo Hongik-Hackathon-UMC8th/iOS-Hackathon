@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SignInView: View {
     
+    @Environment(NavigationRouter.self) private var router
+    
     @State private var id: String = ""
     @State private var password: String = ""
     @State private var isLoginAlert: Bool = false
@@ -46,6 +48,7 @@ struct SignInView: View {
                             viewModel.loginPwd = password
                             await login()
                         }
+                        router.push(.baseTab)
                     }
                 }) {
                     Text("로그인")
@@ -56,10 +59,10 @@ struct SignInView: View {
                         .background(Color.navy01)
                         .cornerRadius(10)
                 }
-
+                
                 // 회원가입 버튼
                 Button(action: {
-                    // 회원가입 페이지로 이동
+                    router.push(.signup)
                 }) {
                     Text("회원가입")
                         .foregroundStyle(.white)
@@ -78,11 +81,8 @@ struct SignInView: View {
     }
     
     private func login() async {
-
+        
         await viewModel.login()
-
-}
-
-#Preview {
-    SignInView()
+        
+    }
 }

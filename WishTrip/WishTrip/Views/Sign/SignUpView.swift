@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    @Environment(NavigationRouter.self) private var router
+    
     // MARK: - States
     @Bindable var viewModel = LoginViewModel()
     
@@ -60,6 +62,9 @@ struct SignUpView: View {
             Task {
                 await viewModel.signup()
             }
+            
+            router.pop()
+            router.push(.login)
         }
         showAlert = true
     }
@@ -89,4 +94,5 @@ func customSecureField(_ placeholder: String, text: Binding<String>, strokeColor
 }
 #Preview {
     SignUpView()
+        .environment(NavigationRouter())
 }

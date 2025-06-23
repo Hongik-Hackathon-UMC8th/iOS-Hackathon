@@ -13,18 +13,23 @@ struct RootView: View {
     
     var body: some View {
         NavigationStack(path: $router.path) {
-            BaseTabView()
+            SignInView()
                 .environment(router)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
+                    case .login:
+                        SignInView()
+                            .environment(router)
+                    case .signup:
+                        SignUpView()
+                            .environment(router)
                     case .baseTab:
                         BaseTabView()
                             .environment(router)
                             .environment(viewModel)
-                    case .mapWithSearch(let keyword): // ✅ 추가
+                    case .mapWithSearch(let keyword):
                         MapView(initialKeyword: keyword)
                                .environment(router)
-                               
                     case .mapView:
                         MapView(initialKeyword: "")
                             .environment(router)

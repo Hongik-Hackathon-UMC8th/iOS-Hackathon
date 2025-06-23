@@ -21,7 +21,7 @@ class SettingViewModel {
     // 위시트립 초기화
     func reset() async -> Bool {
         do {
-            let response = try await provider.requestAsync(.reset(memberId: 4))
+            let response = try await provider.requestAsync(.reset(memberId: 2))
             let result = try JSONDecoder().decode(GetMemberIdResponse.self, from: response.data)
             
             return result.isSuccess
